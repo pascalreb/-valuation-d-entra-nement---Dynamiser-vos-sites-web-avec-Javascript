@@ -1,8 +1,13 @@
+$font-family: 'Lato', sans-serif;
+$breakpoints: (
+  "md": 720px,
+);
+
 * {
   padding: 0;
   margin: 0;
   text-transform: uppercase;
-  font-family: "Lato", sans-serif;
+  font-family: $font-family;
 }
 
 html {
@@ -31,7 +36,7 @@ html {
 }
 
 .left-side {
-  background: rgba(211, 211, 211, 0.3);
+  background: rgb(211, 211, 211, 0.3);
 }
 
 .red-background {
@@ -77,7 +82,7 @@ html {
   right: -40px;
   width: 80px;
   height: 80px;
-  box-shadow: 0 0 5px;
+  box-shadow: 0 0 5px ;
   font-size: 1.2rem;
 }
 
@@ -110,26 +115,32 @@ html {
   margin: 0;
 }
 
-@media (max-width: 720px) {
-  .roll-dice {
+@mixin md {
+  @media ( max-width: map-get($breakpoints, "md") ) {
+    @content;
+  }
+}
+
+.roll-dice {
+  @include md {
     bottom: 40px;
   }
 }
 
-@media (max-width: 720px) {
-  .hold {
+.hold {
+  @include md {
     bottom: 10px;
   }
 }
 
-@media (max-width: 720px) {
-  .player {
+.player {
+  @include md {
     font-size: 1.2rem;
   }
 }
 
-@media (max-width: 720px) {
-  .dice {
+.dice {
+  @include md {
     bottom: 25vh;
     right: -25px;
     width: 50px;
@@ -137,8 +148,8 @@ html {
   }
 }
 
-@media (max-width: 720px) {
-  .active-player {
+.active-player {
+  @include md {
     width: 10px;
   }
-}/*# sourceMappingURL=style.css.map */
+}

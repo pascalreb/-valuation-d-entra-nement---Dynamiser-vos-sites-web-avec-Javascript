@@ -49,7 +49,7 @@ const holdScore = function () {
   // Conditions si les 100 points sont atteints
   if (scores[activePlayer] >= 100) {
     document.querySelector(`.player-${activePlayer}`).classList.add("winner-player")
-    document.querySelector(`.player-${activePlayer}`).innerHTML = `<p>Bravo, tu as gagné !</p>`
+    document.querySelector(`.player-${activePlayer}`).innerHTML = `<p>Bravo !!!</p>`
 
   } else {
     changePlayer()
