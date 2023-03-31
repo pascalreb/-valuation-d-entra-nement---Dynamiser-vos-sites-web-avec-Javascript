@@ -1,45 +1,67 @@
-const newGame = document.querySelector('.fa-circle-plus')
-const rollDice = document.querySelector('.fa-rotate')
-const hold = document.querySelector('.fa-file-arrow-down')
+// Déclaration des constantes
+const dice = document.querySelector(".dice")
+const roll = document.querySelector(".roll-dice")
+const hold = document.querySelector(".hold")
+const newGame = document.querySelector(".new-game")
+const player0 = document.querySelector(".player0")
+const player1 = document.querySelector(".player1")
 
-const GLOBAL1 = document.querySelector('.GLOBAL1')
-const GLOBAL2 = document.querySelector('.GLOBAL2')
-const ROUND1 = document.querySelector('.ROUND1')
-const ROUND2 = document.querySelector('.ROUND2')
+// Déclaration des variables
+let randomNumber = 0
+let roundScore = 0
+let activePlayer = 0
+let scores = [0, 0]
 
-const diceFace = document.querySelector('.dice-face')
+// Récupération d'un nombre aléatoire entre 1 et 6
+const rollDice = function () {
+  randomNumber = Math.floor(Math.random() * 6) + 1
 
-//Clique sur le bouton New Game
+  // Affichage du dé
+  dice.innerHTML = `<img class="dice" src="../images/dice/dice-${randomNumber}.png" alt="dice ${randomNumber}">`
 
-launchNewGame = (e) => {
-  e.preventDefault()
-
-  GLOBAL1.innerHTML = 0
-  GLOBAL2.innerHTML = 0
-  ROUND1.innerHTML = 0
-  ROUND2.innerHTML = 0
-
-}
-
-newGame.addEventListener('click', launchNewGame)
-
-//Clique sur le bouton Roll Dice
-
-LaunchDice = (e) => {
-  e.preventDefault()
-  
-
-
-  let diceResult = Math.floor(Math.random()*6 + 1)
-  diceFace.innerHTML = diceResult
-
-  if (diceResult !== 1) {
-    ROUND1.innerHTML =+ diceResult
+  // Conditions du roundscore (score temporaire)
+  if (randomNumber !== 1) {
+    roundScore += randomNumber
+    document.querySelector(`.ROUND${activePlayer}`).textContent = roundScore
   } else {
-    ROUND1.innerHTML = 0
-    }
-
-
+    changePlayer()
+  }
 }
 
-rollDice.addEventListener('click', LaunchDice)
+// Changement de joueur
+const changePlayer = function () {
+  roundScore = 0
+  document.querySelector(`.ROUND${activePlayer}`).textContent = 0
+  activePlayer = activePlayer === 0 ? 1 : 0
+  player0.classList.toggle("active-player")
+  player1.classList.toggle("active-player")
+}
+
+// Enregistrement du score
+const holdScore = function () {
+  
+  // Ajout du roundscore dans le score global
+  scores[activePlayer] += roundScore
+  
+  // Affichage du score global
+  document.querySelector(`.GLOBAL${activePlayer}`).textContent = scores[activePlayer]
+
+  // Conditions si les 100 points sont atteints
+  if (scores[activePlayer] >= 100) {
+    document.querySelector(`.player-${activePlayer}`).classList.add("winner-player")
+    document.querySelector(`.player-${activePlayer}`).innerHTML = `<p>Bravo, tu as gagné !</p>`
+
+  } else {
+    changePlayer()
+  }
+}
+
+// Nouvelle partie
+const replay = function () {
+  document.location.reload()
+}
+
+// Ecoute des événements
+roll.addEventListener("click", rollDice)
+hold.addEventListener("click", holdScore)
+newGame.addEventListener("click", replay)
